@@ -13,6 +13,7 @@ import { ScheduleCellPresetNames } from "../../components//schedule-cell/schedul
 import { Talk } from "../../models/talk"
 import { convertToTimeZone } from "date-fns-timezone"
 import { TIMEZONE } from "../../utils/info"
+import { logComponentPerf } from "./../../../perf"
 
 const ROOT: ViewStyle = {
   flex: 1,
@@ -77,7 +78,8 @@ export class ScheduleScreen extends React.Component<ScheduleScreenProps, Schedul
 
   render() {
     const { selected } = this.state
-    return (
+    return logComponentPerf(
+      "ScheduleScreen",
       <Screen preset="fixed" backgroundColor={color.palette.portGore} style={ROOT}>
         <ScrollView
           style={{ flex: 1, width: "100%" }}
@@ -90,7 +92,7 @@ export class ScheduleScreen extends React.Component<ScheduleScreenProps, Schedul
           {selected === "wednesday" ? this.renderWorkshops() : this.renderContent()}
         </ScrollView>
         <ScheduleNav selected={this.state.selected} onSelected={this.onSelected} />
-      </Screen>
+      </Screen>,
     )
   }
 
@@ -119,7 +121,8 @@ export class ScheduleScreen extends React.Component<ScheduleScreenProps, Schedul
       const zonedStartTime = convertToTimeZone(talk.startTime, { timeZone: TIMEZONE })
       return selected === "thursday" ? isThursday(zonedStartTime) : isFriday(zonedStartTime)
     })
-    return (
+    return logComponentPerf(
+      "TalksScreen",
       <View>
         <Text
           tx={`scheduleScreen.${selected === "thursday" ? "day1" : "day2"}`}
@@ -130,9 +133,10 @@ export class ScheduleScreen extends React.Component<ScheduleScreenProps, Schedul
           tx={`scheduleScreen.${selected === "thursday" ? "day1" : "day2"}Date`}
           style={DATE}
           preset="label"
+          nativeID="tti_complete"
         />
-        {selectedTalks && selectedTalks.map(this.renderTalk)}
-      </View>
+        {selectedTalks && logComponentPerf("Talks", selectedTalks.map(this.renderTalk))}
+      </View>,
     )
   }
 
@@ -144,10 +148,16 @@ export class ScheduleScreen extends React.Component<ScheduleScreenProps, Schedul
     const welcomeParty = talks.find(talk => talk.talkType === "AFTERPARTY")
     const onPressWorkshop = talk => this.props.navigation.navigate("talkDetails", { talk })
 
-    return (
+    return logComponentPerf(
+      "Workshops",
       <View>
         <Text tx="scheduleScreen.workshops" style={SUBTITLE} preset="subheader" />
-        <Text tx="scheduleScreen.workshopsDate" style={DATE} preset="label" />
+        <Text
+          tx="scheduleScreen.workshopsDate"
+          style={DATE}
+          preset="label"
+          nativeID="tti_complete"
+        />
         <ScheduleCell index={0} talk={beginnerWorkshop} onPress={onPressWorkshop} />
         <ScheduleCell index={1} talk={intermediateWorkshop} onPress={onPressWorkshop} />
         <ScheduleCell index={2} talk={advancedWorkshop} onPress={onPressWorkshop} />
@@ -157,7 +167,7 @@ export class ScheduleScreen extends React.Component<ScheduleScreenProps, Schedul
           talk={welcomeParty}
           onPress={onPressWorkshop}
         />
-      </View>
+      </View>,
     )
   }
 

@@ -14,6 +14,7 @@ import { Text } from "../text"
 import { palette } from "../../theme"
 import { formatToTimeZone } from "date-fns-timezone"
 import { TIMEZONE } from "../../utils/info"
+import { logComponentPerf } from "./../../../perf"
 
 export class ScheduleCell extends React.Component<ScheduleCellProps, {}> {
   state = { animatedSize: new Animated.Value(1) }
@@ -39,7 +40,8 @@ export class ScheduleCell extends React.Component<ScheduleCellProps, {}> {
     const isOdd = index % 2 === 0 // index starts at 0
     const speakerName = talk && talk.speakers ? talk.speakers.map(s => s.name).join(", ") : ""
     if (!talk) return null
-    return (
+    return logComponentPerf(
+      `ScheduleCell_${talk.title}`,
       <TouchableWithoutFeedback
         onPressIn={this.handlePressIn}
         onPressOut={this.handlePressOut}
@@ -54,7 +56,9 @@ export class ScheduleCell extends React.Component<ScheduleCellProps, {}> {
         >
           {noTime ? this.renderTopBorder() : this.renderTime()}
           <View style={style.contentWrapper as ViewStyle}>
-            <View style={style.imageWrapper as ViewStyle}>{this.renderImage()}</View>
+            <View style={style.imageWrapper as ViewStyle}>
+              {logComponentPerf("ScheduleCell_image", this.renderImage())}
+            </View>
             <View style={style.content as ViewStyle}>
               <Text preset="subheader" text={talk.title} style={style.title as TextStyle} />
               {talk && talk.speakers && talk.speakers.length > 0 && talk.speakers[0].name && (
@@ -68,9 +72,25 @@ export class ScheduleCell extends React.Component<ScheduleCellProps, {}> {
                 />
               )}
             </View>
+            {logComponentPerf(
+              "ScheduleCell_text",
+              <View style={style.content as ViewStyle}>
+                <Text preset="subheader" text={talk.title} style={style.title as TextStyle} />
+                {talk.speakers && talk.speakers.length > 0 && talk.speakers[0].name && (
+                  <Text preset="subheader" text={speakerName} style={style.speaker as TextStyle} />
+                )}
+                {preset === "afterparty" && (
+                  <Text
+                    preset="subheader"
+                    text={talk.description}
+                    style={style.speaker as TextStyle}
+                  />
+                )}
+              </View>,
+            )}
           </View>
         </Animated.View>
-      </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>,
     )
   }
 

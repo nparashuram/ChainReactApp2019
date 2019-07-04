@@ -2,6 +2,7 @@ import * as React from "react"
 import { TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
 import { Text } from "../text"
 import { palette, spacing } from "../../theme"
+import { logComponentPerf } from "./../../../perf"
 
 const NAV_WRAPPER: ViewStyle = {
   flexDirection: "row",
@@ -36,27 +37,37 @@ export class ScheduleNav extends React.Component<
 > {
   render() {
     const { selected, onSelected } = this.props
-    return (
+    return logComponentPerf(
+      "NavDays",
       <View style={NAV_WRAPPER}>
-        <TouchableOpacity
-          style={[NAV_BUTTON, selected === "wednesday" && NAV_BUTTON_SELECTED]}
-          onPress={() => onSelected("wednesday")}
-        >
-          <Text tx="scheduleScreen.nav.wednesday" style={NAV_TEXT} preset="sectionHeader" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[NAV_BUTTON, selected === "thursday" && NAV_BUTTON_SELECTED]}
-          onPress={() => onSelected("thursday")}
-        >
-          <Text tx="scheduleScreen.nav.thursday" style={NAV_TEXT} preset="sectionHeader" />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[NAV_BUTTON, selected === "friday" && NAV_BUTTON_SELECTED, NAV_BUTTON_LAST]}
-          onPress={() => onSelected("friday")}
-        >
-          <Text tx="scheduleScreen.nav.friday" style={NAV_TEXT} preset="sectionHeader" />
-        </TouchableOpacity>
-      </View>
+        {logComponentPerf(
+          "Wednesday",
+          <TouchableOpacity
+            style={[NAV_BUTTON, selected === "wednesday" && NAV_BUTTON_SELECTED]}
+            onPress={() => onSelected("wednesday")}
+          >
+            <Text tx="scheduleScreen.nav.wednesday" style={NAV_TEXT} preset="sectionHeader" />
+          </TouchableOpacity>,
+        )}
+        {logComponentPerf(
+          "Thursday",
+          <TouchableOpacity
+            style={[NAV_BUTTON, selected === "thursday" && NAV_BUTTON_SELECTED]}
+            onPress={() => onSelected("thursday")}
+          >
+            <Text tx="scheduleScreen.nav.thursday" style={NAV_TEXT} preset="sectionHeader" />
+          </TouchableOpacity>,
+        )}
+        {logComponentPerf(
+          "Friday",
+          <TouchableOpacity
+            style={[NAV_BUTTON, selected === "friday" && NAV_BUTTON_SELECTED, NAV_BUTTON_LAST]}
+            onPress={() => onSelected("friday")}
+          >
+            <Text tx="scheduleScreen.nav.friday" style={NAV_TEXT} preset="sectionHeader" />
+          </TouchableOpacity>,
+        )}
+      </View>,
     )
   }
 }
