@@ -20,6 +20,11 @@ const TITLE: TextStyle = {
   marginLeft: spacing.large,
 }
 
+const VM_TYPE: TextStyle = {
+  marginLeft: spacing.large,
+  marginTop: spacing.extraLarge,
+}
+
 export class InfoScreen extends React.Component<InfoScreenProps, InfoScreenState> {
   static navigationOptions = {
     header: null,
@@ -37,10 +42,21 @@ export class InfoScreen extends React.Component<InfoScreenProps, InfoScreenState
     })
   }
 
+  getJSVM() {
+    if (typeof global.HermesInternal === "object") {
+      return "Hermes"
+    } else {
+      return "JSC"
+    }
+  }
+
   render() {
     return (
       <Screen preset="scrollStack" backgroundColor={palette.portGore}>
         <Text preset="title" tx="infoScreen.title" style={TITLE} />
+        <Text preset="sectionHeader" style={VM_TYPE}>
+          JavaScript Engine: {this.getJSVM()}
+        </Text>
         <WiFi />
         <Conduct onPress={() => this.props.navigation.navigate("codeOfConduct")} />
         <SurveyLink />
