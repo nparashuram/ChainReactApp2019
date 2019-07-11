@@ -45,6 +45,8 @@ export class InfoScreen extends React.Component<InfoScreenProps, InfoScreenState
   getJSVM() {
     if (typeof global.HermesInternal === "object") {
       return "Hermes"
+    } else if (typeof global._v8runtime === "function") {
+      return `V8 version ${global._v8runtime().version}`
     } else {
       return "JSC"
     }

@@ -20,6 +20,8 @@ buildscript {
     }
 }
 
+ext.JS_ENGINE = System.getenv("JS_ENGINE");
+
 allprojects {
     repositories {
         mavenLocal()
@@ -27,10 +29,24 @@ allprojects {
         google()
         jcenter()
         maven {
-            // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url("$rootDir/../node_modules/react-native/android")
+            if (JS_ENGINE == "v8") {
+                // Replace AAR from original RN with AAR from react-native-v8
+                url("$rootDir/../node_modules/react-native-v8/dist")
+            } else {
+                // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm	        
+                url("$rootDir/../node_modules/react-native/android")
+            }
         }
         maven { url "https://jitpack.io" }
+        maven {
+            // Android JSC is installed from npm
+            if (JS_ENGINE == "v8") {
+                url("$rootDir/../node_modules/v8-android/dist")
+             } else {
+                // Android JSC is installed from npm
+                url("$rootDir/../node_modules/jsc-android/dist")
+            }
+        }
         maven {
             // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")

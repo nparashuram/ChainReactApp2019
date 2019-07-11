@@ -74,7 +74,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    enableHermes: false,  // clean and rebuild if changing
+    enableHermes: System.getenv("JS_ENGINE") == "hermes",  // clean and rebuild if changing
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -172,6 +172,10 @@ android {
     }
 
     packagingOptions {
+        if (System.getenv("JS_ENGINE") == "v8") {
+            //Make sure libjsc.so does not packed in APK
+            exclude "**/libjsc.so"
+        }
         pickFirst '**/armeabi-v7a/libc++_shared.so'
         pickFirst '**/x86/libc++_shared.so'
         pickFirst '**/arm64-v8a/libc++_shared.so'
@@ -208,6 +212,8 @@ dependencies {
       def hermesPath = "../../node_modules/hermesvm/android/";
       debugImplementation files(hermesPath + "hermes-debug.aar")
       releaseImplementation files(hermesPath + "hermes-release.aar")
+    } else if (System.getenv("JS_ENGINE") == "v8") {
+      implementation 'org.chromium:v8-android:+'
     } else {
       implementation jscFlavor
     }
