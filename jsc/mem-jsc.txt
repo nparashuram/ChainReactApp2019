@@ -1,0 +1,57 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 133608005 Realtime: 273406922
+
+** MEMINFO in pid 8493 [com.chainreactapp] **
+                   Pss  Private  Private  SwapPss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap    31286    31240        4       28    44032    36889     7143
+  Dalvik Heap     4333     4320        0       38     8351     4192     4159
+ Dalvik Other     2496     2496        0        0                           
+        Stack       76       76        0        0                           
+       Ashmem      130      128        0        0                           
+      Gfx dev    11344     7696        0        0                           
+    Other dev       16        0       16        0                           
+     .so mmap    10429      616     8088       22                           
+    .apk mmap     6551      184     3764        0                           
+    .ttf mmap      125        0       96        0                           
+    .dex mmap    10752       12     8500        0                           
+    .oat mmap      618        0        4        0                           
+    .art mmap     1759     1096       36        5                           
+   Other mmap      479        4      376        0                           
+   EGL mtrack    24660    24660        0        0                           
+    GL mtrack     3672     3672        0        0                           
+      Unknown    75459    75456        0        3                           
+        TOTAL   184281   151656    20884       96    52383    41081    11302
+ 
+ App Summary
+                       Pss(KB)
+                        ------
+           Java Heap:     5452
+         Native Heap:    31240
+                Code:    21264
+               Stack:       76
+            Graphics:    36028
+       Private Other:    78480
+              System:    11741
+ 
+               TOTAL:   184281       TOTAL SWAP PSS:       96
+ 
+ Objects
+               Views:      110         ViewRootImpl:        1
+         AppContexts:        5           Activities:        1
+              Assets:        7        AssetManagers:        0
+       Local Binders:       32        Proxy Binders:       31
+       Parcel memory:       12         Parcel count:       49
+    Death Recipients:        3      OpenSSL Sockets:        5
+            WebViews:        0
+ 
+ SQL
+         MEMORY_USED:      580
+  PAGECACHE_OVERFLOW:      155          MALLOC_SIZE:      218
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b)          cache  Dbname
+         4       72             35         6/27/3  /data/user/0/com.chainreactapp/databases/RKStorage
+         4       72             36        10/21/3  /data/user/0/com.chainreactapp/databases/RKStorage
+         4       24             58        30/41/5  /data/user/0/com.chainreactapp/databases/com.microsoft.appcenter.persistence
