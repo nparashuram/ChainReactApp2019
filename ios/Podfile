@@ -4,6 +4,40 @@ platform :ios, '10.0'
 install! 'cocoapods', deterministic_uuids: false
 project 'ChainReactConf.xcodeworkspace'
 
+# Add Flipper Poods
+def flipper_pods()
+  flipperkit_version = '0.23.4'
+  pod 'FlipperKit', '~>' + flipperkit_version, :configuration => 'Debug'
+  pod 'FlipperKit/FlipperKitLayoutPlugin', '~>' + flipperkit_version, :configuration => 'Debug'
+  pod 'FlipperKit/SKIOSNetworkPlugin', '~>' + flipperkit_version, :configuration => 'Debug'
+  pod 'FlipperKit/FlipperKitUserDefaultsPlugin', '~>' + flipperkit_version, :configuration => 'Debug'
+end
+
+# Post Install processing for Flipper
+def flipper_post_install(installer)
+  installer.pods_project.targets.each do |target|
+    if target.name == 'YogaKit'
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '4.1'
+      end
+    end
+  end
+  file_name = Dir.glob("*.xcodeproj")[0]
+  app_project = Xcodeproj::Project.open(file_name)
+  app_project.native_targets.each do |target|
+    target.build_configurations.each do |config|
+      cflags = config.build_settings['OTHER_CFLAGS'] || '$(inherited) '
+      unless cflags.include? '-DFB_SONARKIT_ENABLED=1'
+        puts 'Adding -DFB_SONARKIT_ENABLED=1 in OTHER_CFLAGS...'
+        cflags << '-DFB_SONARKIT_ENABLED=1'
+      end
+      config.build_settings['OTHER_CFLAGS'] = cflags
+    end
+    app_project.save
+  end
+  installer.pods_project.save
+end
+
 target 'ChainReactConf' do
   pod 'React', path: '../node_modules/react-native/'
   pod 'React-Core', path: '../node_modules/react-native/React'
@@ -23,7 +57,7 @@ target 'ChainReactConf' do
   pod 'React-jsi', path: '../node_modules/react-native/ReactCommon/jsi'
   pod 'React-jsiexecutor', path: '../node_modules/react-native/ReactCommon/jsiexecutor'
   pod 'React-jsinspector', path: '../node_modules/react-native/ReactCommon/jsinspector'
-  pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga'
+  pod 'Yoga', path: '../node_modules/react-native/ReactCommon/yoga'
   pod 'DoubleConversion', podspec: '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', podspec: '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', podspec: '../node_modules/react-native/third-party-podspecs/Folly.podspec'
@@ -37,10 +71,11 @@ target 'ChainReactConf' do
   pod 'RNGestureHandler', path: '../node_modules/react-native-gesture-handler'
   pod 'RNScreens', path: '../node_modules/react-native-screens'
   pod 'RNDeviceInfo', path: '../node_modules/react-native-device-info'
-
+  flipper_pods()
   # use_native_modules!
 
   post_install do |installer|
+    flipper_post_install(installer)
     installer.pods_project.targets.each do |target|
       if target.name == "React"
         target.remove_from_project

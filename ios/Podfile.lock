@@ -24,7 +24,50 @@ PODS:
   - AppCenterReactNativeShared (2.1.0):
     - AppCenter/Core (= 2.1.0)
   - boost-for-react-native (1.63.0)
+  - CocoaAsyncSocket (7.6.3)
+  - CocoaLibEvent (1.0.0)
   - DoubleConversion (1.1.6)
+  - Flipper (0.23.4):
+    - Flipper-Folly (~> 2.0)
+    - Flipper-RSocket (~> 1.0)
+  - Flipper-Folly (2.0.0):
+    - boost-for-react-native
+    - CocoaLibEvent (~> 1.0)
+    - DoubleConversion
+    - glog
+    - openssl-ios-bitcode (~> 1.0)
+  - Flipper-PeerTalk (0.0.4)
+  - Flipper-RSocket (1.0.0):
+    - Flipper-Folly (~> 2.0)
+  - FlipperKit (0.23.4):
+    - FlipperKit/Core (= 0.23.4)
+  - FlipperKit/Core (0.23.4):
+    - Flipper (~> 0.23.4)
+    - FlipperKit/CppBridge
+    - FlipperKit/FBCxxUtils
+    - FlipperKit/FBDefines
+    - FlipperKit/FKPortForwarding
+  - FlipperKit/CppBridge (0.23.4):
+    - Flipper (~> 0.23.4)
+  - FlipperKit/FBCxxUtils (0.23.4):
+    - Flipper-Folly (~> 2.0)
+  - FlipperKit/FBDefines (0.23.4)
+  - FlipperKit/FKPortForwarding (0.23.4):
+    - CocoaAsyncSocket (~> 7.6)
+    - Flipper-PeerTalk (~> 0.0.4)
+  - FlipperKit/FlipperKitLayoutPlugin (0.23.4):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitLayoutTextSearchable
+    - Yoga (~> 1.14)
+    - YogaKit (~> 1.14)
+  - FlipperKit/FlipperKitLayoutTextSearchable (0.23.4)
+  - FlipperKit/FlipperKitNetworkPlugin (0.23.4):
+    - FlipperKit/Core
+  - FlipperKit/FlipperKitUserDefaultsPlugin (0.23.4):
+    - FlipperKit/Core
+  - FlipperKit/SKIOSNetworkPlugin (0.23.4):
+    - FlipperKit/Core
+    - FlipperKit/FlipperKitNetworkPlugin
   - Folly (2018.10.22.00):
     - boost-for-react-native
     - DoubleConversion
@@ -35,6 +78,7 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - openssl-ios-bitcode (1.0.216)
   - React (0.60.3):
     - React-Core (= 0.60.3)
     - React-DevSupport (= 0.60.3)
@@ -52,7 +96,7 @@ PODS:
     - Folly (= 2018.10.22.00)
     - React-cxxreact (= 0.60.3)
     - React-jsiexecutor (= 0.60.3)
-    - yoga (= 0.60.3.React)
+    - Yoga
   - React-cxxreact (0.60.3):
     - boost-for-react-native (= 1.63.0)
     - DoubleConversion
@@ -107,15 +151,17 @@ PODS:
   - React-RCTWebSocket (0.60.3):
     - React-Core (= 0.60.3)
     - React-fishhook (= 0.60.3)
-  - RNCAsyncStorage (1.5.0):
+  - RNCAsyncStorage (1.6.1):
     - React
-  - RNDeviceInfo (2.1.3):
+  - RNDeviceInfo (2.3.2):
     - React
-  - RNGestureHandler (1.3.0):
+  - RNGestureHandler (1.4.1):
     - React
-  - RNScreens (1.0.0-alpha.22):
+  - RNScreens (1.0.0-alpha.23):
     - React
-  - yoga (0.60.3.React)
+  - Yoga (1.14.3)
+  - YogaKit (1.14.0):
+    - Yoga (~> 1.14)
 
 DEPENDENCIES:
   - appcenter (from `../node_modules/appcenter/ios`)
@@ -123,6 +169,10 @@ DEPENDENCIES:
   - appcenter-crashes (from `../node_modules/appcenter-crashes/ios`)
   - appcenter-push (from `../node_modules/appcenter-push/ios`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - FlipperKit (~> 0.23.4)
+  - FlipperKit/FlipperKitLayoutPlugin (~> 0.23.4)
+  - FlipperKit/FlipperKitUserDefaultsPlugin (~> 0.23.4)
+  - FlipperKit/SKIOSNetworkPlugin (~> 0.23.4)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - React (from `../node_modules/react-native/`)
@@ -148,13 +198,22 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+  - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AppCenter
     - AppCenterReactNativeShared
     - boost-for-react-native
+    - CocoaAsyncSocket
+    - CocoaLibEvent
+    - Flipper
+    - Flipper-Folly
+    - Flipper-PeerTalk
+    - Flipper-RSocket
+    - FlipperKit
+    - openssl-ios-bitcode
+    - YogaKit
 
 EXTERNAL SOURCES:
   appcenter:
@@ -217,7 +276,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  yoga:
+  Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
@@ -228,18 +287,26 @@ SPEC CHECKSUMS:
   appcenter-push: 5cd328b49870e01b30df7b2d8b755544d09ddf5e
   AppCenterReactNativeShared: 6e856a993f022a2a7afaa1bc21834d4dded708b2
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  CocoaLibEvent: 2fab71b8bd46dd33ddb959f7928ec5909f838e3f
   DoubleConversion: 5805e889d232975c086db112ece9ed034df7a0b2
+  Flipper: 4e1bbfefd2d49e005c8a24f72a528c0121a95ce8
+  Flipper-Folly: 47dd8eaa8bf2245683e67c83121e6d2d8f4807cd
+  Flipper-PeerTalk: 116d8f857dc6ef55c7a5a75ea3ceaafe878aadc9
+  Flipper-RSocket: 1260a31c05c238eabfa9bb8a64e3983049048371
+  FlipperKit: 5ec4eea59a69bfe28d460f4b076f81cf0687c904
   Folly: 30e7936e1c45c08d884aa59369ed951a8e68cf51
   glog: 1f3da668190260b06b429bb211bfbee5cd790c28
+  openssl-ios-bitcode: b46298bcbc3e218fe13e376142af616850a36f7d
   React: ac23e9cc8d2d4cfe9b536b5cc0c32d19b9937bcf
-  React-Core: 84de3cf80e31f0267c5ce0b5b482d59ce30a8a57
+  React-Core: 622863d09d9b3e8b6ae2d885404558ec0ec3bbd4
   React-cxxreact: a802a1c6b14f3de66ba032460b424c17ececd1e2
   React-DevSupport: ae72c4fc86c03197f007bb24404077c85f6dabc1
   React-fishhook: 12bd79b4461280f441937dea83f11d9fb660edfc
   React-jsi: c2b6e57836bcae2677a036384111dc2c58e94369
   React-jsiexecutor: d9023c5c199114d2b6f38ec861a4d923c73d0735
   React-jsinspector: 817b64f3c8a807f09d78620f4f505868d89b26f3
-  react-native-netinfo: 0da34082d2cec3100c9b5073bb217e35f1142bdd
+  react-native-netinfo: 27d908bc7ee7b9f29400c02938a0b2a27a1015be
   React-RCTActionSheet: 9c42321fd5652515d706dd722c5a10b1970d7ec8
   React-RCTAnimation: fabb087dde8964c9a835a7fabd0e7e5701787913
   React-RCTBlob: 93f34281d9c9c9e216b25824309eed9fe22a5d41
@@ -250,12 +317,13 @@ SPEC CHECKSUMS:
   React-RCTText: b026f8350c2cbe0daeb9880dd9c6e018fce0daf7
   React-RCTVibration: 5d9ed4a968e9d42880ddcc7c29bee3417c745408
   React-RCTWebSocket: 69d8565d66043f244b4129f3d7154c5689fb7d3e
-  RNCAsyncStorage: 9436928b444c5f5361960a7eea051a697c244b68
-  RNDeviceInfo: a67eef80ee1e68e1824f3ed3dc0ccf9e2d4fdc59
-  RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
-  RNScreens: 720a9e6968beb73e8196239801e887d8401f86ed
-  yoga: 843fe25849b56131275bf3e5da2c468e96f68aff
+  RNCAsyncStorage: 621bad7a889b5bf1583a52547f2dcd3a4d1ff15e
+  RNDeviceInfo: bdc3e922b2ed0f086e9d9ab534e61bc316f08576
+  RNGestureHandler: 4cb47a93019c1a201df2644413a0a1569a51c8aa
+  RNScreens: f28b48b8345f2f5f39ed6195518291515032a788
+  Yoga: 6746fcb394e17ea7dea932b93ada7230cc442b0f
+  YogaKit: 5d1dc899cecd5946e5a758a0c3997704a4b48d01
 
-PODFILE CHECKSUM: 3c72e4ac5d502773dcd0a090961e803b362403bc
+PODFILE CHECKSUM: f6bedbe8ce6cf409c1211042d349553bd5a406e6
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.7.2
